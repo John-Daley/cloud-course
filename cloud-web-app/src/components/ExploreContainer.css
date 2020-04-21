@@ -22,3 +22,11 @@
 .container a {
   text-decoration: none;
 }
+
+ion-item{
+  --border-radius: 10px;
+  --padding-bottom: 3px;
+  --inner-padding-bottom: 10px;
+  --background: none;
+}
+
