@@ -1,33 +1,21 @@
 import { IonContent,IonImg,IonCard,IonCardContent,IonList, IonItem, IonCardHeader,IonChip,IonAvatar, IonCardSubtitle, IonCardTitle,IonHeader, IonPage, IonTitle, IonToolbar, IonGrid,IonCol,IonRow, IonLabel } from '@ionic/react';
 import React, {useState } from 'react';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
-//import ExploreContainer from '../components/ExploreContainer';
-//import './Home.css';
-import ItemExamples from '../components/historyBase'
-import AddUser from '../components/addUser'
-import { isNull } from 'util';
+import UserPool from '../helpers/userPool';
+import SignUp from '../components/signUp'
+import Login from '../components/login';
+
+
 const testPhoto = "https://scontent.fmmx3-1.fna.fbcdn.net/v/t1.0-9/p960x960/29468160_2015286372069529_9021510360649170944_o.jpg?_nc_cat=108&_nc_sid=85a577&_nc_ohc=K9zvL3pRRs0AX-MT4sP&_nc_ht=scontent.fmmx3-1.fna&_nc_tp=6&oh=ec9dad3450e9bf393171991716a5fdda&oe=5EBBDCD6";
 const Home: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const poolData = {
-    UserPoolId: '',
-    ClientId: ''
-  };
-  const UserPool = new CognitoUserPool(poolData);
-  const onSubmit = (e: { preventDefault: () => void; }) =>{
-    e.preventDefault();
-    UserPool.signUp(email, password, [],[], (err: any,data: any) =>{
-      if(err) console.error(err);
-      console.log(data)
-    })
-  }
+  
   return (
     <IonPage>
       <IonHeader className="header-css">
         <IonToolbar>
           <IonTitle>DIY Security Camera AB</IonTitle>
-        
+        <Login/>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -36,17 +24,7 @@ const Home: React.FC = () => {
             <IonTitle size="large">Blank</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <form onSubmit={onSubmit}>
-          <input 
-          value={email} 
-          onChange= {event => setEmail(event.target.value)}
-          />
-          <input 
-          value={password} 
-          onChange= {event => setPassword(event.target.value)}
-          />
-          <button type='submit'>Sign up </button>
-        </form>
+        <SignUp/>
       
         <IonCard>
           <IonCardHeader>
