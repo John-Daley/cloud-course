@@ -1,0 +1,41 @@
+import React from 'react';
+import {Link} from 'react-router-dom';
+
+import * as ROUTES from '../'
+
+
+const Navigation = ({ authUser }) => (
+    <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+  );
+  const NavigationAuth = () => (
+    <ul className ="navNavUl">
+      <li>
+        <Link to="/admin">Landing</Link>
+      </li>
+      <li>
+        <Link to=>Home</Link>
+      </li>
+      <li>
+        <Link to={ROUTES.ACCOUNT}>Account</Link>
+      </li>
+      <li>
+        <Link to={ROUTES.ADMIN}>Admin</Link>
+      </li>
+      <li>
+    
+      </li>
+    </ul>
+  );
+  const NavigationNonAuth = () => (
+    <ul className="navNavUl">
+      <li>
+        <Link to={ROUTES.LANDING}>Landing</Link>
+      </li>
+      <li>
+        <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+      </li>
+    </ul>
+  );
+  
+
+export default Navigation;
