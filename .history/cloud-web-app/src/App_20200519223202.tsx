@@ -1,0 +1,76 @@
+import React, {createContext, useEffect, useReducer} from 'react';
+import { Redirect, Route } from 'react-router-dom';
+import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import Home from './pages/Home';
+import AdminPage from './pages/adminPage';
+import UserPage from './pages/userPage';
+
+/* Core CSS required for Ionic components to work properly */
+import '@ionic/react/css/core.css';
+
+/* Basic CSS for apps built with Ionic */
+import '@ionic/react/css/normalize.css';
+import '@ionic/react/css/structure.css';
+import '@ionic/react/css/typography.css';
+
+/* Optional CSS utils that can be commented out */
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/float-elements.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/text-transformation.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/display.css';
+//import history from './components/history'
+/* Theme variables */
+import { useLocalStorage } from './useLocalStorage';
+
+export const AppContext = React.createContext({
+  authenticated: false
+});
+const initialState = {
+  isAuthed: "no"
+}
+
+const reducer = (state: any, action: { type: string; puppers: any; }) => {
+  if (action.type === 'setPuppers') {
+    return { ...state, puppers: action.puppers }
+  }
+  return state;
+}
+
+const AppContextProvider = (props: { children: React.ReactNode; }) => {
+  const [data, setData ] = useLocalStorage('data', initialState);
+
+  let [state, dispatch] = useReducer(reducer, data);
+
+  let value = { state, dispatch };
+
+  useEffect(() => {
+    setData(state);
+  }, [state, setData]);
+
+
+  return (
+    <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
+  );
+}
+
+import './theme/variables.css';
+import { createBrowserHistory as history} from 'history';
+const App: React.FC = () => (
+  <IonApp>
+    <AppContextProvider>
+    <IonReactRouter >
+      <IonRouterOutlet >
+        <Route path="/home" component={Home} exact={true} />
+<Route exact path="/" render={() =>{return {this.state.authenticated} ? <Home /> : <AdminPage /> }}; /> 
+        <Route path="/admin" component={AdminPage} exact={true}/>
+        <Route path ="/userpage" component={UserPage}  exact={true}/>
+      </IonRouterOutlet>
+    </IonReactRouter>
+    </AppContextProvider>
+  </IonApp>
+);
+
+export default App;
